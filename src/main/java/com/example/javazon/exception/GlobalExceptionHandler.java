@@ -30,13 +30,27 @@ public class GlobalExceptionHandler extends RuntimeException {
 
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
-                HttpStatus.UNPROCESSABLE_ENTITY.value(), // 422
-                "Erro de Regra de Negócio",
+                HttpStatus.BAD_REQUEST.value(), // 422
+                "Esrtoque insuficiente",
                 ex.getMessage(),
                 request.getRequestURI()
         );
 
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(ProcessarPagamentoException.class)
+    public ResponseEntity<ErrorResponse> handleProcessarPagamentoException(ProcessarPagamentoException ex, HttpServletRequest request) {
+
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Erro ao processar pagamento",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(Exception.class)

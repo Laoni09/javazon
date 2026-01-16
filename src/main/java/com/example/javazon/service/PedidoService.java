@@ -3,7 +3,7 @@ package com.example.javazon.service;
 
 import com.example.javazon.domain.CarrinhoDeCompras;
 import com.example.javazon.domain.ItemCarrinho;
-import com.example.javazon.exception.EstoqueInsuficienteException;
+import com.example.javazon.exception.ProcessarPagamentoException;
 import com.example.javazon.repository.EstoqueRepository;
 import com.example.javazon.service.pagamento.ProcessadorPagamento;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class PedidoService {
             baixarEstoque(carrinho);
             carrinho.esvaziarCarrinho();
         } else {
-            System.out.println("❌ Pagamento Recusado. O estoque não foi alterado.");
+           throw new ProcessarPagamentoException("Falha ao processar o pagamento.");
         }
     }
 
